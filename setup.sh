@@ -9,3 +9,5 @@ for action in install remove; do
 done
 pkg clean
 yes | apt autoremove
+
+tar -xvf "${HOME}/storage/downloads/ssh.tar.gz"
