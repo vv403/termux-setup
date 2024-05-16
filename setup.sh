@@ -10,4 +10,7 @@ done
 pkg clean
 yes | apt autoremove
 
+mkdir -p ~/.local/bin/
+busybox --install -s ~/.local/bin/
+
 tar -xvf "${HOME}/storage/downloads/ssh.tar.gz"
