@@ -14,3 +14,5 @@ mkdir -p ~/.local/bin/
 busybox --install -s ~/.local/bin/
 
 tar -xvf "${HOME}/storage/downloads/ssh.tar.gz"
+
+curl https://github.com/web-flow.gpg | gpg --import
