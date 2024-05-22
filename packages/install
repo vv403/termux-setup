@@ -3,5 +3,6 @@ ffmpeg
 gnupg
 man
 neofetch
+python
 shellcheck
 vim
