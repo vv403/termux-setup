@@ -2,25 +2,48 @@
 
 set -e -u
 
-termux-setup-storage
+main() {
+    setup_storage
+    setup_packages
+    setup_busybox
+    setup_ssh
+    setup_gpg
+    setup_python
+}
 
-for action in install remove; do
-    yes | xargs -a "${0%/*}/packages/${action}" pkg "$action"
-done
-pkg clean
-yes | apt autoremove
+setup_storage() {
+    termux-setup-storage
+}
 
-mkdir -p ~/.local/bin/
-busybox --install -s ~/.local/bin/
+setup_packages() {
+    for action in install remove; do
+        yes | xargs -a "${0%/*}/packages/${action}" pkg "$action"
+    done
+    pkg clean
+    yes | apt autoremove
+}
 
-tar -xvf "${HOME}/storage/downloads/ssh.tar.gz"
+setup_busybox() {
+    mkdir -p ~/.local/bin/
+    busybox --install -s ~/.local/bin/
+}
 
-curl https://github.com/web-flow.gpg | gpg --import
+setup_ssh() {
+    tar -xvf "${HOME}/storage/downloads/ssh.tar.gz"
+}
 
-# https://github.com/termux/termux-packages/issues/20039#issuecomment-2096494418
-_file="$(find $PREFIX/lib/python3.11 -name "_sysconfigdata*.py")"
-rm -rf $PREFIX/lib/python3.11/__pycache__
-cp $_file "$_file".backup
-sed -i 's|-fno-openmp-implicit-rpath||g' "$_file"
+setup_gpg() {
+    curl https://github.com/web-flow.gpg | gpg --import
+}
 
-python -m pip install --requirement "${0%/*}/requirements.txt" --user
+setup_python() {
+    # https://github.com/termux/termux-packages/issues/20039#issuecomment-2096494418
+    _file="$(find $PREFIX/lib/python3.11 -name "_sysconfigdata*.py")"
+    rm -rf $PREFIX/lib/python3.11/__pycache__
+    cp $_file "$_file".backup
+    sed -i 's|-fno-openmp-implicit-rpath||g' "$_file"
+
+    python -m pip install --requirement "${0%/*}/requirements.txt" --user
+}
+
+main "$@"
