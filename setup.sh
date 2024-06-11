@@ -9,6 +9,7 @@ main() {
     setup_ssh
     setup_gpg
     setup_python
+    setup_snowflake_proxy
 }
 
 setup_storage() {
@@ -44,6 +45,12 @@ setup_python() {
     sed -i 's|-fno-openmp-implicit-rpath||g' "$_file"
 
     python -m pip install --requirement "${0%/*}/requirements.txt" --user
+}
+
+setup_snowflake_proxy() {
+    git clone https://gitlab.torproject.org/tpo/anti-censorship/pluggable-transports/snowflake.git "${HOME}/snowflake/"
+    go build -C "${HOME}/snowflake/proxy"
+    ln -s "${HOME}/snowflake/proxy/proxy" "${HOME}/.local/bin/snowflake-proxy"
 }
 
 main "$@"
