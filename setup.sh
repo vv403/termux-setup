@@ -44,7 +44,7 @@ setup_python() {
     cp $_file "$_file".backup
     sed -i 's|-fno-openmp-implicit-rpath||g' "$_file"
 
-    python -m pip install --requirement "${0%/*}/requirements.txt" --user
+    LIBSODIUM_INSTALL=system python -m pip install --requirement "${0%/*}/requirements.txt" --user
 }
 
 setup_snowflake_proxy() {

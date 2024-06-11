@@ -3,6 +3,7 @@ busybox
 ffmpeg
 gnupg
 golang
+libsodium
 man
 neofetch
 python
