@@ -24,6 +24,20 @@ setup_packages() {
     yes | apt autoremove
 }
 
+# https://gist.github.com/vv403/7ed8159a8f426e7711db147936f18048
+setup_dotfiles() {
+    export GIT_DIR=~/.dotfiles/
+    git init --bare ~/.dotfiles/ --initial-branch=main
+    export GIT_WORK_TREE=~/
+    git remote add origin "git@github.com:vv403/dotfiles.git"
+    git fetch
+
+    git reset --hard HEAD
+    git branch --set-upstream-to=origin/main
+
+    unset GIT_DIR GIT_WORK_TREE
+}
+
 setup_busybox() {
     mkdir -p ~/.local/bin/
     busybox --install -s ~/.local/bin/
