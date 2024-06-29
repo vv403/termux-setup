@@ -26,16 +26,10 @@ setup_packages() {
 
 # https://gist.github.com/vv403/7ed8159a8f426e7711db147936f18048
 setup_dotfiles() {
-    export GIT_DIR=~/.dotfiles/
-    git init --bare ~/.dotfiles/ --initial-branch=main
-    export GIT_WORK_TREE=~/
-    git remote add origin "git@github.com:vv403/dotfiles.git"
-    git fetch
-
-    git reset --hard HEAD
-    git branch --set-upstream-to=origin/main
-
-    unset GIT_DIR GIT_WORK_TREE
+    curl --remote-name https://gist.githubusercontent.com/vv403/8ae6e050d2bf6d0dab8da80527f16065/raw/5ea34fff795f2c6b7548800080280a601fe8e713/dotfiles.sh
+    chmod +x dotfiles.sh
+    ./dotfiles.sh init
+    rm dotfiles.sh
 }
 
 setup_busybox() {
